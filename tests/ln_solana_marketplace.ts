@@ -108,3 +108,21 @@ describe('LN_NFT_MARKETPLACE Load Program Object & Prepare testers', () => {
     assert(res == 1000 * 1e9, 'Airdrop 1000 SOL for user1 Failed');
   });
 });
+
+describe('Contract Creation', () => {
+  it('Contract creator has a role of Admin', async () => {
+    const tx = await createInitializeTx(
+      superOwner.publicKey,
+      program as unknown as anchor.Program
+    );
+    const txId = await provider.connection.sendTransaction(tx, [superOwner]);
+    await provider.connection.confirmTransaction(txId, 'confirmed');
+    console.log('TxHash=', txId);
+
+    let globalInfo = await getGlobalState(program as unknown as anchor.Program);
+    assert(
+      globalInfo.superAdmin.toBase58() == superOwner.publicKey.toBase58(),
+      'GlobalInfo Admin Address mismatch with SuperOwner Pubkey'
+    );
+  });
+});
