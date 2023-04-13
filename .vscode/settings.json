@@ -1,0 +1,5 @@
+{
+  "rust-analyzer.linkedProjects": [
+    "./programs/ln_solana_marketplace/Cargo.toml"
+  ]
+}
